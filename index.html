@@ -3,1690 +3,754 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PROJECT WINGMAN: AI-Powered Engineering Mentorship</title>
+<title>Fulcrum Platform — Request Access</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Share+Tech+Mono&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --steel: #0a0e1a;
-    --deep: #060914;
-    --panel: #0d1528;
-    --border: #1a2744;
-    --accent: #00d4ff;
-    --accent2: #0088cc;
-    --gold: #f5a623;
-    --green: #00ff88;
-    --red: #ff3b30;
-    --text: #c8d8f0;
-    --muted: #5a7399;
-    --white: #e8f0ff;
+    --navy: #060d1f;
+    --navy-2: #0a1428;
+    --navy-3: #0f1e3a;
+    --blue: #1e5fd4;
+    --blue-light: #3d8ef0;
+    --blue-glow: rgba(61,142,240,0.15);
+    --steel: #4a7ab0;
+    --muted: #3a5578;
+    --text: #c8daf0;
+    --text-dim: #6a8aaa;
+    --border: rgba(61,142,240,0.15);
+    --border-strong: rgba(61,142,240,0.3);
+    --red: #e04040;
+    --green: #00c878;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--deep);
+  html, body {
+    height: 100%;
+    background: var(--navy);
     color: var(--text);
-    font-family: 'Inter', sans-serif;
+    font-family: 'DM Mono', monospace;
     overflow-x: hidden;
   }
 
-  /* SCANLINE OVERLAY */
-  body::before {
-    content: '';
+  /* Animated background */
+  .bg {
     position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 2px,
-      rgba(0, 212, 255, 0.015) 2px,
-      rgba(0, 212, 255, 0.015) 4px
-    );
-    pointer-events: none;
-    z-index: 9999;
+    inset: 0;
+    z-index: 0;
   }
 
-  /* NAV */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    padding: 16px 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(6, 9, 20, 0.92);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(0, 212, 255, 0.15);
+  .bg-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(61,142,240,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(61,142,240,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: gridDrift 20s ease-in-out infinite alternate;
   }
 
-  .nav-logo {
-    font-family: 'Orbitron', monospace;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    color: var(--accent);
-    text-transform: uppercase;
+  @keyframes gridDrift {
+    from { transform: translate(0, 0); }
+    to { transform: translate(10px, 10px); }
   }
 
-  .nav-logo span {
-    color: var(--muted);
-    font-weight: 400;
+  .bg-orb-1 {
+    position: absolute;
+    top: -20%;
+    right: -10%;
+    width: 70vw;
+    height: 70vw;
+    background: radial-gradient(circle, rgba(30,95,212,0.12) 0%, transparent 65%);
+    animation: pulse1 8s ease-in-out infinite;
   }
 
-  .nav-links {
-    display: flex;
-    gap: 32px;
-    list-style: none;
+  .bg-orb-2 {
+    position: absolute;
+    bottom: -20%;
+    left: -10%;
+    width: 50vw;
+    height: 50vw;
+    background: radial-gradient(circle, rgba(0,100,180,0.08) 0%, transparent 65%);
+    animation: pulse2 10s ease-in-out infinite;
   }
 
-  .nav-links a {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.15em;
-    color: var(--muted);
-    text-decoration: none;
-    text-transform: uppercase;
-    transition: color 0.2s;
+  .scan-line {
+    position: absolute;
+    top: -2px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(61,142,240,0.6) 50%, transparent 100%);
+    animation: scan 6s linear infinite;
   }
 
-  .nav-links a:hover { color: var(--accent); }
-
-  .nav-badge {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    color: var(--gold);
-    border: 1px solid var(--gold);
-    padding: 4px 10px;
-    text-transform: uppercase;
+  @keyframes pulse1 {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.05); }
   }
 
-  /* HERO */
-  .hero {
+  @keyframes pulse2 {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.03); }
+  }
+
+  @keyframes scan {
+    from { top: -2px; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    to { top: 100vh; opacity: 0; }
+  }
+
+  /* Layout */
+  .container {
+    position: relative;
+    z-index: 1;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    padding: 120px 40px 80px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  /* Grid background */
-  .hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: 
-      linear-gradient(rgba(0, 212, 255, 0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0, 212, 255, 0.04) 1px, transparent 1px);
-    background-size: 60px 60px;
-    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
-  }
-
-  /* Radial glow */
-  .hero::after {
-    content: '';
-    position: absolute;
-    top: 20%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 800px;
-    height: 800px;
-    background: radial-gradient(ellipse, rgba(0, 136, 204, 0.12) 0%, transparent 70%);
-    pointer-events: none;
-  }
-
-  .hero-content {
-    max-width: 1100px;
-    margin: 0 auto;
-    width: 100%;
-    position: relative;
-    z-index: 2;
-  }
-
-  .classification-bar {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.25em;
-    color: var(--gold);
-    text-transform: uppercase;
-    margin-bottom: 40px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-
-  .classification-bar::before,
-  .classification-bar::after {
-    content: '';
-    flex: 1;
-    max-width: 80px;
-    height: 1px;
-    background: var(--gold);
-    opacity: 0.5;
-  }
-
-  .hero-eyebrow {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.3em;
-    color: var(--accent);
-    text-transform: uppercase;
-    margin-bottom: 20px;
-    opacity: 0;
-    animation: fadeUp 0.8s ease 0.2s forwards;
-  }
-
-  .hero-title {
-    font-family: 'Orbitron', monospace;
-    font-size: clamp(52px, 8vw, 96px);
-    font-weight: 900;
-    line-height: 0.95;
-    letter-spacing: -0.02em;
-    color: var(--white);
-    text-transform: uppercase;
-    margin-bottom: 8px;
-    opacity: 0;
-    animation: fadeUp 0.8s ease 0.3s forwards;
-  }
-
-  .hero-title .accent-word {
-    color: var(--accent);
-    display: block;
-    -webkit-text-stroke: 1px var(--accent);
-  }
-
-  .hero-subtitle {
-    font-family: 'Orbitron', monospace;
-    font-size: clamp(14px, 2vw, 18px);
-    font-weight: 400;
-    letter-spacing: 0.15em;
-    color: var(--muted);
-    text-transform: uppercase;
-    margin-bottom: 40px;
-    opacity: 0;
-    animation: fadeUp 0.8s ease 0.4s forwards;
-  }
-
-  .hero-description {
-    font-size: 17px;
-    line-height: 1.7;
-    color: var(--text);
-    max-width: 640px;
-    margin-bottom: 50px;
-    opacity: 0;
-    animation: fadeUp 0.8s ease 0.5s forwards;
-    font-weight: 300;
-  }
-
-  .hero-stats {
-    display: flex;
-    gap: 48px;
-    margin-bottom: 50px;
-    opacity: 0;
-    animation: fadeUp 0.8s ease 0.6s forwards;
-    flex-wrap: wrap;
-  }
-
-  .stat-item {
-    border-left: 2px solid var(--accent);
-    padding-left: 16px;
-  }
-
-  .stat-value {
-    font-family: 'Orbitron', monospace;
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--accent);
-    line-height: 1;
-    margin-bottom: 4px;
-  }
-
-  .stat-label {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    color: var(--muted);
-    text-transform: uppercase;
-  }
-
-  .hero-ctas {
-    display: flex;
-    gap: 16px;
-    opacity: 0;
-    animation: fadeUp 0.8s ease 0.7s forwards;
-    flex-wrap: wrap;
-  }
-
-  .btn-primary {
-    font-family: 'Orbitron', monospace;
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--steel);
-    background: var(--accent);
-    border: none;
-    padding: 14px 32px;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-block;
-    font-weight: 700;
-    transition: all 0.2s;
-    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
-  }
-
-  .btn-primary:hover {
-    background: var(--white);
-    transform: translateY(-2px);
-  }
-
-  .btn-secondary {
-    font-family: 'Orbitron', monospace;
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--accent);
-    background: transparent;
-    border: 1px solid var(--accent);
-    padding: 14px 32px;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-block;
-    font-weight: 600;
-    transition: all 0.2s;
-    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
-  }
-
-  .btn-secondary:hover {
-    background: rgba(0, 212, 255, 0.1);
-    transform: translateY(-2px);
-  }
-
-  /* FLOATING HUD ELEMENT */
-  .hud-element {
-    position: absolute;
-    right: 40px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 380px;
-    opacity: 0;
-    animation: fadeIn 1s ease 1s forwards;
-  }
-
-  .hud-panel {
-    background: rgba(13, 21, 40, 0.9);
-    border: 1px solid var(--border);
-    padding: 24px;
-    position: relative;
-  }
-
-  .hud-panel::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 40px; height: 2px;
-    background: var(--accent);
-  }
-
-  .hud-panel::after {
-    content: '';
-    position: absolute;
-    bottom: 0; right: 0;
-    width: 40px; height: 2px;
-    background: var(--accent);
-  }
-
-  .hud-title {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.25em;
-    color: var(--accent);
-    text-transform: uppercase;
-    margin-bottom: 16px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .cost-compare {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .cost-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .cost-label {
-    font-size: 12px;
-    color: var(--muted);
-    font-family: 'Share Tech Mono', monospace;
-  }
-
-  .cost-value {
-    font-family: 'Orbitron', monospace;
-    font-size: 13px;
-    font-weight: 700;
-  }
-
-  .cost-value.red { color: var(--red); }
-  .cost-value.green { color: var(--green); }
-
-  .cost-bar-container {
-    margin-top: 16px;
-    background: rgba(255,255,255,0.05);
-    height: 6px;
-    position: relative;
-  }
-
-  .cost-bar-fill {
-    height: 100%;
-    background: var(--green);
-    width: 8%;
-    position: relative;
-  }
-
-  .cost-bar-human {
-    position: absolute;
-    top: 0; left: 0;
-    height: 100%;
-    background: rgba(255, 59, 48, 0.4);
-    width: 100%;
-  }
-
-  .savings-badge {
-    margin-top: 16px;
-    background: rgba(0, 255, 136, 0.08);
-    border: 1px solid rgba(0, 255, 136, 0.2);
-    padding: 8px 12px;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 11px;
-    color: var(--green);
-    text-align: center;
-    letter-spacing: 0.1em;
-  }
-
-  .agent-indicators {
-    display: flex;
-    gap: 6px;
-    margin-top: 16px;
-    padding-top: 16px;
-    border-top: 1px solid var(--border);
-    flex-wrap: wrap;
-  }
-
-  .agent-dot {
-    width: 28px;
-    height: 28px;
-    background: rgba(0, 212, 255, 0.1);
-    border: 1px solid rgba(0, 212, 255, 0.3);
-    display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 9px;
-    color: var(--accent);
-    font-family: 'Share Tech Mono', monospace;
-    cursor: default;
+    padding: 40px 20px;
   }
 
-  .agent-dot.train { border-color: rgba(245, 166, 35, 0.4); color: var(--gold); background: rgba(245, 166, 35, 0.08); }
-  .agent-dot.catch { border-color: rgba(0, 255, 136, 0.3); color: var(--green); background: rgba(0, 255, 136, 0.06); }
-
-  /* SECTION STYLES */
-  section {
-    padding: 100px 40px;
-    position: relative;
-  }
-
-  .section-container {
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-
-  .section-label {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.3em;
-    color: var(--accent);
-    text-transform: uppercase;
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .section-label::before {
-    content: '//';
-    color: var(--muted);
-  }
-
-  .section-title {
-    font-family: 'Orbitron', monospace;
-    font-size: clamp(28px, 4vw, 44px);
-    font-weight: 700;
-    color: var(--white);
-    text-transform: uppercase;
-    letter-spacing: -0.01em;
-    margin-bottom: 16px;
-    line-height: 1.1;
-  }
-
-  .section-desc {
-    font-size: 16px;
-    color: var(--muted);
-    max-width: 580px;
-    line-height: 1.7;
-    margin-bottom: 60px;
-    font-weight: 300;
-  }
-
-  /* PROBLEM SECTION */
-  .problem-section {
-    background: linear-gradient(180deg, var(--deep) 0%, var(--steel) 100%);
-    border-top: 1px solid var(--border);
-  }
-
-  .problem-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2px;
-    background: var(--border);
-  }
-
-  .problem-card {
-    background: var(--panel);
-    padding: 40px;
-    position: relative;
-  }
-
-  .problem-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 3px;
-    height: 40px;
-    background: var(--red);
-  }
-
-  .problem-card.solution::before {
-    background: var(--green);
-  }
-
-  .problem-icon {
-    font-size: 24px;
-    margin-bottom: 16px;
-  }
-
-  .problem-card h3 {
-    font-family: 'Orbitron', monospace;
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--white);
-    margin-bottom: 12px;
-  }
-
-  .problem-card p {
-    font-size: 14px;
-    color: var(--muted);
-    line-height: 1.7;
-  }
-
-  /* THREE TIERS */
-  .tiers-section {
-    background: var(--steel);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .principle-callout {
-    background: rgba(0, 212, 255, 0.05);
-    border: 1px solid rgba(0, 212, 255, 0.2);
-    border-left: 3px solid var(--accent);
-    padding: 20px 28px;
-    margin-bottom: 60px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-
-  .principle-callout .label {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    color: var(--accent);
-    text-transform: uppercase;
-    white-space: nowrap;
-  }
-
-  .principle-callout .text {
-    font-family: 'Orbitron', monospace;
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--white);
-    letter-spacing: 0.05em;
-  }
-
-  .tiers-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2px;
-    background: var(--border);
-  }
-
-  .tier-column {
-    background: var(--panel);
-    overflow: hidden;
-  }
-
-  .tier-header {
-    padding: 24px 28px;
-    border-bottom: 1px solid var(--border);
-    position: relative;
-  }
-
-  .tier-header.train { border-top: 3px solid var(--gold); }
-  .tier-header.coach { border-top: 3px solid var(--accent); }
-  .tier-header.catch { border-top: 3px solid var(--green); }
-
-  .tier-number {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    color: var(--muted);
-    margin-bottom: 6px;
-    text-transform: uppercase;
-  }
-
-  .tier-name {
-    font-family: 'Orbitron', monospace;
-    font-size: 22px;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 6px;
-  }
-
-  .tier-name.train { color: var(--gold); }
-  .tier-name.coach { color: var(--accent); }
-  .tier-name.catch { color: var(--green); }
-
-  .tier-purpose {
-    font-size: 12px;
-    color: var(--muted);
-    line-height: 1.5;
-  }
-
-  .agent-list {
-    padding: 20px 28px;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .agent-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 12px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
-  }
-
-  .agent-item:last-child { border-bottom: none; }
-
-  .agent-tag {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px;
-    color: var(--accent);
-    white-space: nowrap;
-    padding-top: 2px;
-    min-width: 120px;
-  }
-
-  .agent-tag.train { color: var(--gold); }
-  .agent-tag.catch { color: var(--green); }
-
-  .agent-desc {
-    font-size: 12px;
-    color: var(--muted);
-    line-height: 1.5;
-  }
-
-  .agent-model {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 9px;
-    color: rgba(90, 115, 153, 0.6);
-    margin-top: 3px;
-  }
-
-  /* PRINCIPLE SECTION */
-  .principle-section {
-    background: var(--deep);
-  }
-
-  .principle-cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2px;
-    background: var(--border);
-  }
-
-  .principle-card {
-    background: var(--panel);
-    padding: 36px 32px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .principle-card::after {
-    content: '';
-    position: absolute;
-    bottom: 0; right: 0;
-    width: 60px; height: 60px;
-    background: radial-gradient(circle, rgba(0, 212, 255, 0.06), transparent 70%);
-  }
-
-  .principle-number {
-    font-family: 'Orbitron', monospace;
-    font-size: 48px;
-    font-weight: 900;
-    color: rgba(0, 212, 255, 0.08);
-    line-height: 1;
-    margin-bottom: 20px;
-  }
-
-  .principle-card h3 {
-    font-family: 'Orbitron', monospace;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--white);
-    margin-bottom: 12px;
-  }
-
-  .principle-card p {
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.7;
-  }
-
-  /* METRICS SECTION */
-  .metrics-section {
-    background: var(--steel);
-    border-top: 1px solid var(--border);
-  }
-
-  .metrics-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 2px;
-    background: var(--border);
-    margin-bottom: 60px;
-  }
-
-  .metric-card {
-    background: var(--panel);
-    padding: 36px 28px;
-    position: relative;
-  }
-
-  .metric-card::before {
-    content: '';
-    position: absolute;
+  /* Top bar */
+  .top-bar {
+    position: fixed;
     top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--accent), transparent);
-  }
-
-  .metric-value {
-    font-family: 'Orbitron', monospace;
-    font-size: 36px;
-    font-weight: 900;
-    color: var(--accent);
-    line-height: 1;
-    margin-bottom: 8px;
-  }
-
-  .metric-label {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    color: var(--muted);
-    text-transform: uppercase;
-    margin-bottom: 8px;
-  }
-
-  .metric-detail {
-    font-size: 12px;
-    color: rgba(90, 115, 153, 0.7);
-    line-height: 1.5;
-  }
-
-  /* TIMELINE */
-  .timeline {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0;
-    position: relative;
-  }
-
-  .timeline::before {
-    content: '';
-    position: absolute;
-    top: 28px;
-    left: calc(16.67% + 20px);
-    right: calc(16.67% + 20px);
-    height: 1px;
-    background: var(--border);
-  }
-
-  .timeline-item {
-    padding: 0 20px;
-    position: relative;
-  }
-
-  .timeline-marker {
-    width: 40px;
-    height: 40px;
-    background: var(--panel);
-    border: 2px solid var(--accent);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Orbitron', monospace;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--accent);
-    margin-bottom: 20px;
-  }
-
-  .timeline-phase {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    color: var(--muted);
-    text-transform: uppercase;
-    margin-bottom: 6px;
-  }
-
-  .timeline-title {
-    font-family: 'Orbitron', monospace;
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--white);
-    margin-bottom: 10px;
-    text-transform: uppercase;
-  }
-
-  .timeline-desc {
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.6;
-  }
-
-  /* CTA SECTION */
-  .cta-section {
-    background: linear-gradient(180deg, var(--steel) 0%, var(--deep) 100%);
-    border-top: 1px solid var(--border);
-    text-align: center;
-  }
-
-  .cta-box {
-    background: rgba(0, 212, 255, 0.04);
-    border: 1px solid rgba(0, 212, 255, 0.2);
-    padding: 60px;
-    max-width: 700px;
-    margin: 0 auto;
-    position: relative;
-  }
-
-  .cta-box::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 60px; height: 2px;
-    background: var(--accent);
-  }
-
-  .cta-box::after {
-    content: '';
-    position: absolute;
-    bottom: 0; right: 0;
-    width: 60px; height: 2px;
-    background: var(--accent);
-  }
-
-  .cta-title {
-    font-family: 'Orbitron', monospace;
-    font-size: 28px;
-    font-weight: 900;
-    color: var(--white);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 16px;
-  }
-
-  .cta-text {
-    font-size: 15px;
-    color: var(--muted);
-    line-height: 1.7;
-    margin-bottom: 36px;
-    font-weight: 300;
-  }
-
-  .contact-info {
-    display: flex;
-    gap: 40px;
-    justify-content: center;
-    margin-top: 40px;
-    padding-top: 40px;
-    border-top: 1px solid var(--border);
-    flex-wrap: wrap;
-  }
-
-  .contact-item {
-    text-align: left;
-  }
-
-  .contact-label {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 0.2em;
-    color: var(--muted);
-    text-transform: uppercase;
-    margin-bottom: 4px;
-  }
-
-  .contact-value {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 12px;
-    color: var(--accent);
-  }
-
-  /* FOOTER */
-  footer {
-    background: var(--deep);
-    border-top: 1px solid var(--border);
-    padding: 24px 40px;
+    z-index: 10;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 16px;
+    padding: 16px 32px;
+    background: rgba(6,13,31,0.8);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
   }
 
-  .footer-logo {
-    font-family: 'Orbitron', monospace;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.2em;
+  .top-brand {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #fff;
+  }
+
+  .top-brand span { color: var(--blue-light); }
+
+  .top-badge {
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
     color: var(--muted);
-    text-transform: uppercase;
+    border: 1px solid var(--border);
+    padding: 4px 10px;
+    border-radius: 2px;
   }
 
-  .footer-links {
-    display: flex;
-    gap: 24px;
-    list-style: none;
-  }
-
-  .footer-links a {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    color: var(--muted);
-    text-decoration: none;
-    text-transform: uppercase;
-    transition: color 0.2s;
-  }
-
-  .footer-links a:hover { color: var(--accent); }
-
-  .footer-class {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    color: rgba(90, 115, 153, 0.5);
-    text-transform: uppercase;
-  }
-
-  /* DIVIDER */
-  .section-divider {
+  /* Main card */
+  .card {
     width: 100%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    max-width: 480px;
+    margin-top: 60px;
+    animation: fadeUp 0.8s ease forwards;
   }
 
-  /* ANIMATIONS */
   @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
+    from { opacity: 0; transform: translateY(24px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
-
-  .live-indicator {
-    display: inline-flex;
+  /* Classification bar */
+  .classif-bar {
+    background: rgba(200,50,50,0.08);
+    border: 1px solid rgba(200,50,50,0.2);
+    border-bottom: none;
+    padding: 6px 16px;
+    display: flex;
     align-items: center;
-    gap: 6px;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    color: var(--green);
-    text-transform: uppercase;
+    gap: 8px;
+    border-radius: 4px 4px 0 0;
   }
 
-  .live-dot {
-    width: 6px;
-    height: 6px;
+  .classif-dot {
+    width: 5px; height: 5px;
+    background: #e04040;
     border-radius: 50%;
-    background: var(--green);
-    animation: pulse 2s ease infinite;
+    animation: blink 2s ease-in-out infinite;
   }
 
-  /* SCROLL REVEAL */
-  .reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-  }
-  
-  .reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
   }
 
-  /* KNOWLEDGE SECTION */
-  .knowledge-section {
-    background: var(--deep);
-    border-top: 1px solid var(--border);
+  .classif-text {
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #c06060;
   }
 
-  .knowledge-domains {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 2px;
-    background: var(--border);
+  /* Form panel */
+  .panel {
+    background: rgba(10,20,40,0.85);
+    border: 1px solid var(--border-strong);
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    backdrop-filter: blur(20px);
+    overflow: hidden;
   }
 
-  .domain-card {
-    background: var(--panel);
-    padding: 24px;
-    cursor: default;
-    transition: background 0.2s;
+  .panel-header {
+    padding: 32px 36px 24px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
   }
 
-  .domain-card:hover {
-    background: rgba(13, 21, 40, 1);
+  .panel-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 36px; right: 36px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--blue-light), transparent);
+    opacity: 0.3;
   }
 
-  .domain-num {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px;
-    color: var(--muted);
+  .lock-icon {
+    width: 36px; height: 36px;
+    border: 1px solid var(--border-strong);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    margin-bottom: 16px;
+    background: rgba(61,142,240,0.06);
+  }
+
+  .panel-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.2;
     margin-bottom: 8px;
   }
 
-  .domain-name {
-    font-family: 'Orbitron', monospace;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--white);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 6px;
-    line-height: 1.3;
+  .panel-title em {
+    font-style: normal;
+    color: var(--blue-light);
   }
 
-  .domain-count {
-    font-family: 'Share Tech Mono', monospace;
+  .panel-sub {
     font-size: 11px;
-    color: var(--accent);
-  }
-
-  /* PROVIDERS */
-  .provider-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2px;
-    background: var(--border);
-    margin-top: 40px;
-  }
-
-  .provider-card {
-    background: var(--panel);
-    padding: 28px;
-  }
-
-  .provider-name {
-    font-family: 'Orbitron', monospace;
-    font-size: 14px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: 8px;
-  }
-
-  .provider-name.claude { color: #cc785c; }
-  .provider-name.gemini { color: #4285f4; }
-  .provider-name.gpt { color: #10a37f; }
-
-  .provider-agents {
-    font-size: 12px;
-    color: var(--muted);
+    color: var(--text-dim);
     line-height: 1.6;
   }
 
-  .provider-badge {
-    display: inline-block;
-    font-family: 'Share Tech Mono', monospace;
+  /* Stats strip */
+  .stats-strip {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .stat {
+    flex: 1;
+    padding: 12px 16px;
+    border-right: 1px solid var(--border);
+    text-align: center;
+  }
+
+  .stat:last-child { border-right: none; }
+
+  .stat-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--blue-light);
+  }
+
+  .stat-label {
+    font-size: 8px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* Form */
+  .form-body {
+    padding: 28px 36px 32px;
+  }
+
+  .field {
+    margin-bottom: 16px;
+  }
+
+  .field label {
+    display: block;
     font-size: 9px;
-    letter-spacing: 0.1em;
-    padding: 2px 8px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--steel);
+    margin-bottom: 7px;
+  }
+
+  .field input,
+  .field textarea,
+  .field select {
+    width: 100%;
+    background: rgba(6,13,31,0.8);
+    border: 1px solid var(--border-strong);
+    border-radius: 4px;
+    padding: 11px 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    -webkit-appearance: none;
+  }
+
+  .field input:focus,
+  .field textarea:focus,
+  .field select:focus {
+    border-color: var(--blue-light);
+    box-shadow: 0 0 0 3px rgba(61,142,240,0.1);
+  }
+
+  .field input::placeholder,
+  .field textarea::placeholder {
+    color: var(--muted);
+    opacity: 0.7;
+  }
+
+  .field textarea {
+    resize: none;
+    height: 72px;
+    line-height: 1.5;
+  }
+
+  .field select option {
+    background: #0a1428;
+  }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  /* Submit */
+  .submit-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #1e5fd4, #1a4ab0);
+    border: 1px solid rgba(61,142,240,0.4);
+    border-radius: 4px;
+    padding: 13px 20px;
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .submit-btn::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+    transition: left 0.4s;
+  }
+
+  .submit-btn:hover {
+    background: linear-gradient(135deg, #2468e0, #1e5fd4);
+    box-shadow: 0 0 20px rgba(61,142,240,0.3);
+    transform: translateY(-1px);
+  }
+
+  .submit-btn:hover::before { left: 100%; }
+
+  .submit-btn:active { transform: translateY(0); }
+
+  .submit-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  /* Disclaimer */
+  .disclaimer {
+    margin-top: 14px;
+    font-size: 9.5px;
+    color: var(--muted);
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  /* Success state */
+  .success-state {
+    display: none;
+    text-align: center;
+    padding: 40px 36px;
+  }
+
+  .success-icon {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    background: rgba(0,200,120,0.1);
+    border: 1px solid rgba(0,200,120,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    margin: 0 auto 20px;
+    animation: successPop 0.4s ease;
+  }
+
+  @keyframes successPop {
+    0% { transform: scale(0.5); opacity: 0; }
+    70% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .success-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+
+  .success-body {
+    font-size: 11px;
+    color: var(--text-dim);
+    line-height: 1.7;
+  }
+
+  .success-body strong { color: var(--green); }
+
+  /* Error message */
+  .error-msg {
+    display: none;
+    background: rgba(200,50,50,0.08);
+    border: 1px solid rgba(200,50,50,0.25);
+    border-radius: 4px;
+    padding: 10px 14px;
+    font-size: 11px;
+    color: #e08080;
+    margin-top: 12px;
+    text-align: center;
+  }
+
+  /* Bottom note */
+  .bottom-note {
+    margin-top: 24px;
+    text-align: center;
+    font-size: 10px;
+    color: var(--muted);
+  }
+
+  .bottom-note a {
+    color: var(--blue-light);
+    text-decoration: none;
+    opacity: 0.7;
+  }
+
+  /* Existing passcode entry */
+  .already-have {
+    margin-top: 12px;
+    text-align: center;
+  }
+
+  .passcode-toggle {
+    font-size: 10px;
+    color: var(--text-dim);
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-family: 'DM Mono', monospace;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .passcode-toggle:hover { color: var(--blue-light); }
+
+  .passcode-row {
+    display: none;
+    margin-top: 16px;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .passcode-row.visible { display: flex; }
+
+  .passcode-row input {
+    flex: 1;
+    background: rgba(6,13,31,0.8);
+    border: 1px solid var(--border-strong);
+    border-radius: 4px;
+    padding: 10px 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 3px;
+    color: var(--text);
+    outline: none;
+  }
+
+  .passcode-row input:focus {
+    border-color: var(--blue-light);
+    box-shadow: 0 0 0 3px rgba(61,142,240,0.1);
+  }
+
+  .passcode-go {
+    background: rgba(61,142,240,0.15);
+    border: 1px solid var(--border-strong);
+    border-radius: 4px;
+    padding: 10px 16px;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--blue-light);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+
+  .passcode-go:hover {
+    background: rgba(61,142,240,0.25);
+  }
+
+  .passcode-error {
+    display: none;
+    font-size: 10px;
+    color: var(--red);
+    text-align: center;
     margin-top: 8px;
   }
 
-  .provider-badge.claude { color: #cc785c; border: 1px solid rgba(204, 120, 92, 0.3); background: rgba(204, 120, 92, 0.06); }
-  .provider-badge.gemini { color: #4285f4; border: 1px solid rgba(66, 133, 244, 0.3); background: rgba(66, 133, 244, 0.06); }
-  .provider-badge.gpt { color: #10a37f; border: 1px solid rgba(16, 163, 127, 0.3); background: rgba(16, 163, 127, 0.06); }
-
-  /* MOBILE */
-  @media (max-width: 768px) {
-    nav { padding: 16px 20px; }
-    .nav-links { display: none; }
-    .hero { padding: 100px 20px 60px; }
-    .hud-element { display: none; }
-    .hero-stats { gap: 24px; }
-    section { padding: 60px 20px; }
-    .problem-grid { grid-template-columns: 1fr; }
-    .tiers-grid { grid-template-columns: 1fr; }
-    .principle-cards { grid-template-columns: 1fr; }
-    .metrics-grid { grid-template-columns: 1fr 1fr; }
-    .timeline { grid-template-columns: 1fr; }
-    .timeline::before { display: none; }
-    .knowledge-domains { grid-template-columns: 1fr 1fr; }
-    .provider-grid { grid-template-columns: 1fr; }
-    footer { flex-direction: column; text-align: center; }
-    .cta-box { padding: 40px 24px; }
+  /* Footer */
+  .site-footer {
+    margin-top: 32px;
+    text-align: center;
+    font-size: 9px;
+    color: #2a3a50;
+    letter-spacing: 0.5px;
   }
+
+  .site-footer span { color: #1e3050; }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <div class="nav-logo">Project <span>· </span>Wingman <span>· Powered by Fulcrum</span></div>
-  <ul class="nav-links">
-    <li><a href="#mission">Mission</a></li>
-    <li><a href="#agents">Agents</a></li>
-    <li><a href="#knowledge">Knowledge</a></li>
-    <li><a href="#metrics">Metrics</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-  <div class="nav-badge">12-Week Pilot · Zero Cost</div>
-</nav>
+<div class="bg">
+  <div class="bg-grid"></div>
+  <div class="bg-orb-1"></div>
+  <div class="bg-orb-2"></div>
+  <div class="scan-line"></div>
+</div>
 
-<!-- HERO -->
-<section class="hero" id="mission">
-  <div class="hero-content">
-    <div class="classification-bar">UNCLASSIFIED</div>
-    <div class="hero-eyebrow">U.S. Air Force Platform One × Fulcrum × Digital Transformations LLC</div>
-    <h1 class="hero-title">
-      Project
-      <span class="accent-word">Wingman</span>
-    </h1>
-    <p class="hero-subtitle">AI-Powered Engineering Mentorship for Junior Enlisted Software Engineers</p>
-    <p class="hero-description">
-      15 AI agent teammates organized across Train, Coach, and Catch tiers, deployed 24/7 inside Platform One to mentor junior Airmen. PhD-level expertise at less than 10% the cost of one human contractor.
-    </p>
-    <div class="hero-stats">
-      <div class="stat-item">
-        <div class="stat-value">15</div>
-        <div class="stat-label">AI Agents</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-value">3</div>
-        <div class="stat-label">LLM Providers</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-value">102</div>
-        <div class="stat-label">Books in Vault</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-value">$0</div>
-        <div class="stat-label">Pilot Cost</div>
-      </div>
-    </div>
-    <div class="hero-ctas">
-      <a href="#agents" class="btn-primary">View Agent Roster</a>
-      <a href="#contact" class="btn-secondary">Launch Pilot</a>
-    </div>
-    <div style="margin-top: 32px;">
-      <div class="live-indicator">
-        <div class="live-dot"></div>
-        15 agents ready for deployment on Fulcrum
-      </div>
-    </div>
-  </div>
+<div class="top-bar">
+  <div class="top-brand">Fulcrum <span>Platform</span></div>
+  <div class="top-badge">Digital Transformations LLC</div>
+</div>
 
-  <!-- HUD PANEL -->
-  <div class="hud-element">
-    <div class="hud-panel">
-      <div class="hud-title">Fulcrum Cost Analysis · FY26</div>
-      <div class="cost-compare">
-        <div class="cost-row">
-          <span class="cost-label">Human Contractor (1 engineer)</span>
-          <span class="cost-value red">$25,000/mo</span>
-        </div>
-        <div class="cost-bar-container">
-          <div class="cost-bar-human"></div>
-        </div>
-        <div class="cost-row" style="margin-top: 12px;">
-          <span class="cost-label">Project Wingman (15 agents)</span>
-          <span class="cost-value green">$1,600/mo</span>
-        </div>
-        <div class="cost-bar-container">
-          <div class="cost-bar-fill"></div>
-        </div>
-      </div>
-      <div class="savings-badge">▼ 93.6% cost reduction vs. single human contractor</div>
-      <div class="agent-indicators">
-        <div class="agent-dot train" title="@career_progression">CP</div>
-        <div class="agent-dot train" title="@cdc_tutor">CT</div>
-        <div class="agent-dot train" title="@epr_writer">EW</div>
-        <div class="agent-dot" title="@scrum_coach">SC</div>
-        <div class="agent-dot" title="@product_coach">PC</div>
-        <div class="agent-dot" title="@architect">AR</div>
-        <div class="agent-dot" title="@frontend_dev">FE</div>
-        <div class="agent-dot" title="@backend_dev">BE</div>
-        <div class="agent-dot" title="@ai_mentor">AI</div>
-        <div class="agent-dot" title="@git_coach">GC</div>
-        <div class="agent-dot catch" title="@code_reviewer">CR</div>
-        <div class="agent-dot catch" title="@test_engineer">TE</div>
-        <div class="agent-dot catch" title="@devsecops_lead">DS</div>
-        <div class="agent-dot catch" title="@security_engineer">SE</div>
-        <div class="agent-dot catch" title="@license_compliance">LC</div>
-      </div>
-      <div style="font-family: 'Share Tech Mono'; font-size: 9px; color: var(--muted); margin-top: 8px; letter-spacing: 0.1em;">
-        ■ TRAIN &nbsp; ■ COACH &nbsp; ■ CATCH
-      </div>
-    </div>
-  </div>
-</section>
+<div class="container">
+  <div class="card">
 
-<!-- PROBLEM / SOLUTION -->
-<section class="problem-section" id="problem">
-  <div class="section-container">
-    <div class="section-label">Strategic Context</div>
-    <h2 class="section-title reveal">The Mission Gap</h2>
-    <p class="section-desc reveal">Platform One's STAR Flight has 4 junior Airmen (ages 19 to 20) writing TypeScript who need constant senior engineering guidance. The current model creates a cascading readiness problem.</p>
-
-    <div class="problem-grid reveal">
-      <div class="problem-card">
-        <div class="problem-icon">⚠</div>
-        <h3>Senior Engineers Diverted</h3>
-        <p>Mission-critical projects lose focus as senior engineers field constant mentorship requests from junior developers learning TypeScript, GitLab CI/CD, and DevSecOps.</p>
-      </div>
-      <div class="problem-card">
-        <div class="problem-icon">⏱</div>
-        <h3>Airmen Blocked Without Support</h3>
-        <p>When senior engineers are unavailable, whether in meetings, on leave, or on other projects, junior Airmen idle. Development velocity drops. Career progression stalls.</p>
-      </div>
-      <div class="problem-card">
-        <div class="problem-icon">💰</div>
-        <h3>Contract Mentorship is Expensive</h3>
-        <p>Leadership is considering an external engineering firm at $15,000 to $25,000 per month per senior engineer. That's $180,000 to $300,000 per year for availability-dependent human mentorship.</p>
-      </div>
-      <div class="problem-card solution">
-        <div class="problem-icon">✦</div>
-        <h3>Project Wingman: The AI Solution</h3>
-        <p>Deploy 15 specialized AI agents that are always on, never pulled to another project, and cost less than 10% of one human contractor. They surround junior Airmen with expert guidance across every engineering discipline. Powered by Fulcrum, DT's MCP-native multi-agent platform.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- THREE TIERS -->
-<section class="tiers-section" id="agents">
-  <div class="section-container">
-    <div class="section-label">Agent Architecture</div>
-    <h2 class="section-title reveal">Train. Coach. Catch.</h2>
-    <p class="section-desc reveal">15 AI agents organized across three operational tiers, each with a precise mission and deployed inside Fulcrum, DT's MCP-native multi-agent platform. This is a cross-functional team of specialists, not a chatbot.</p>
-
-    <div class="principle-callout reveal">
-      <div class="label">Operating Principle</div>
-      <div class="text">"The Airman Does the Work. Agents Teach How."</div>
+    <div class="classif-bar">
+      <div class="classif-dot"></div>
+      <div class="classif-text">Controlled Access — Authorized Recipients Only</div>
     </div>
 
-    <div class="tiers-grid reveal">
+    <div class="panel">
 
-      <!-- TRAIN -->
-      <div class="tier-column">
-        <div class="tier-header">
-          <div class="tier-number">Tier 01</div>
-          <div class="tier-name train">TRAIN</div>
-          <div class="tier-purpose">Career progression & skill development. Maps sprint work to CFETP requirements. Accelerates 3-level → 5-level upgrade.</div>
+      <!-- STATS STRIP -->
+      <div class="stats-strip">
+        <div class="stat">
+          <div class="stat-val">$0</div>
+          <div class="stat-label">IL5 Competitors</div>
         </div>
-        <div class="agent-list">
-          <div class="agent-item">
-            <div>
-              <div class="agent-tag train">@career_progression</div>
-              <div class="agent-desc">CFETP tracker. Maps every story to OJT core tasks. Tracks CDC progress, EPME, AF COOL certifications.</div>
-              <div class="agent-model">Claude Opus 4.6 · Fulcrum Cloud</div>
-            </div>
-          </div>
-          <div class="agent-item">
-            <div>
-              <div class="agent-tag train">@cdc_tutor</div>
-              <div class="agent-desc">Career Development Course study coach. Socratic method. Covers all 6 CDC volumes for 1D7X1Z.</div>
-              <div class="agent-model">Claude Sonnet 4.5 · Fulcrum Cloud</div>
-            </div>
-          </div>
-          <div class="agent-item">
-            <div>
-              <div class="agent-tag train">@epr_writer</div>
-              <div class="agent-desc">Translates Airman accomplishments into EPR bullets. Action; Impact, Result format. Promotion-board ready.</div>
-              <div class="agent-model">GPT-5 Mini · Fulcrum Cloud</div>
-            </div>
-          </div>
+        <div class="stat">
+          <div class="stat-val">$175B+</div>
+          <div class="stat-label">Golden Dome TAM</div>
+        </div>
+        <div class="stat">
+          <div class="stat-val">IL5/IL6</div>
+          <div class="stat-label">Target Accreditation</div>
         </div>
       </div>
 
-      <!-- COACH -->
-      <div class="tier-column">
-        <div class="tier-header">
-          <div class="tier-number">Tier 02</div>
-          <div class="tier-name coach">COACH</div>
-          <div class="tier-purpose">Technical mentorship across every engineering discipline. Guides the Airman toward the answer without ever giving it outright.</div>
+      <div class="panel-header">
+        <div class="lock-icon">🔐</div>
+        <div class="panel-title">Request Access to<br>Fulcrum <em>Investor Brief</em></div>
+        <div class="panel-sub">This material is shared selectively with qualified investors, defense partners, and strategic advisors. Submit your information and you'll receive access credentials if approved.</div>
+      </div>
+
+      <!-- FORM STATE -->
+      <div class="form-body" id="formState">
+        <form id="accessForm"
+              action="https://formspree.io/f/mnjgqpag"
+              method="POST">
+
+          <div class="field-row">
+            <div class="field">
+              <label>First Name</label>
+              <input type="text" name="first_name" placeholder="First" required>
+            </div>
+            <div class="field">
+              <label>Last Name</label>
+              <input type="text" name="last_name" placeholder="Last" required>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Email Address</label>
+            <input type="email" name="email" placeholder="name@organization.com" required>
+          </div>
+
+          <div class="field">
+            <label>Organization</label>
+            <input type="text" name="organization" placeholder="Company / Agency / Fund" required>
+          </div>
+
+          <div class="field">
+            <label>Your Role</label>
+            <select name="role" required>
+              <option value="" disabled selected>Select your role...</option>
+              <option value="Investor / VC">Investor / VC</option>
+              <option value="DoD / Government">DoD / Government</option>
+              <option value="Defense Industry">Defense Industry Partner</option>
+              <option value="Strategic Advisor">Strategic Advisor</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Why are you requesting access? (optional)</label>
+            <textarea name="reason" placeholder="Brief context on your interest in Fulcrum Platform..."></textarea>
+          </div>
+
+          <!-- Hidden fields for context -->
+          <input type="hidden" name="_subject" value="🔐 New Fulcrum Platform Access Request">
+          <input type="hidden" name="_replyto" value="">
+
+          <button type="submit" class="submit-btn" id="submitBtn">
+            Request Access →
+          </button>
+
+          <div class="error-msg" id="errorMsg">
+            Something went wrong. Please try again or email Heath directly.
+          </div>
+        </form>
+
+        <div class="disclaimer">
+          Requests are reviewed manually. You will receive an email within 24–48 hours.<br>
+          This document is confidential and intended for authorized recipients only.
         </div>
-        <div class="agent-list">
-          <div class="agent-item">
-            <div>
-              <div class="agent-tag">@scrum_coach</div>
-              <div class="agent-desc">PhD-level Agile & DevSecOps coach. OODA Loop, Theory of Constraints, Spotify Model. Cultural anchor of the team.</div>
-              <div class="agent-model">Claude Opus 4.6 · Fulcrum Cloud</div>
-            </div>
+
+        <div class="already-have">
+          <button class="passcode-toggle" onclick="togglePasscode()">Already have an access code?</button>
+          <div class="passcode-row" id="passcodeRow">
+            <input type="password" id="passcodeInput" placeholder="Enter code..." maxlength="20"
+                   onkeydown="if(event.key==='Enter') checkPasscode()">
+            <button class="passcode-go" onclick="checkPasscode()">Unlock →</button>
           </div>
-          <div class="agent-item">
-            <div>
-              <div class="agent-tag">@product_coach</div>
-              <div class="agent-desc">Refines user stories, acceptance criteria, backlog prioritization. INVEST criteria enforcement.</div>
-              <div class="agent-model">Claude Sonnet 4.5 · Fulcrum Cloud</div>
-            </div>
-          </div>
-          <div class="agent-item">
-            <div>
-              <div class="agent-tag">@architect</div>
-              <div class="agent-desc">System design, TypeScript patterns, P1 Big Bang architecture. Teaches tradeoffs, not just answers.</div>
-              <div class="agent-model">Claude Opus 4.6 · MCP Native</div>
-            </div>
-          </div>
-          <div class="agent-item">
-            <div>
-              <div class="agent-tag">@frontend_dev</div>
-              <div class="agent-desc">React/TypeScript pair programming mentor. Section 508 accessibility. Component patterns and testing.</div>
-              <div class="agent-model">Claude Sonnet 4.5 · Fulcrum Cloud</div>
-            </div>
-          </div>
-          <div class="agent-item">
-            <div>
-              <div class="agent-tag">@backend_dev</div>
-              <div class="agent-desc">API design, PostgreSQL, Node.js patterns. 12-factor app methodology for Kubernetes deployment.</div>
-              <div class="agent-model">Claude Sonnet 4.5 · Fulcrum Cloud</div>
-            </div>
-          </div>
-          <div class="agent-item">
-            <div>
-              <div class="agent-tag">@ai_mentor</div>
-              <div class="agent-desc">AI/ML fundamentals, MCP protocol, Fulcrum architecture. Prepares Airmen for the AI-augmented force.</div>
-              <div class="agent-model">Gemini 2.5 Pro · Fulcrum Cloud</div>
-            </div>
-          </div>
-          <div class="agent-item">
-            <div>
-              <div class="agent-tag">@git_coach</div>
-              <div class="agent-desc">Real-time GitLab workflow coaching via webhooks. Catches bad commits, wrong branches, missing MR descriptions.</div>
-              <div class="agent-model">Gemini 2.5 Flash · Fulcrum Edge</div>
-            </div>
-          </div>
+          <div class="passcode-error" id="passcodeError">Invalid code. Contact Heath for access.</div>
         </div>
       </div>
 
-      <!-- CATCH -->
-      <div class="tier-column">
-        <div class="tier-header">
-          <div class="tier-number">Tier 03</div>
-          <div class="tier-name catch">CATCH</div>
-          <div class="tier-purpose">Quality gates that trigger after Airmen complete work. Catches issues before production. Educates while reviewing.</div>
-        </div>
-        <div class="agent-list">
-          <div class="agent-item">
-            <div>
-              <div class="agent-tag catch">@code_reviewer</div>
-              <div class="agent-desc">MR-triggered deep code review. TypeScript patterns, testing, docs, accessibility. Teaching through feedback.</div>
-              <div class="agent-model">Claude Opus 4.6 · Fulcrum Edge</div>
-            </div>
-          </div>
-          <div class="agent-item">
-            <div>
-              <div class="agent-tag catch">@test_engineer</div>
-              <div class="agent-desc">Test coverage analysis on every MR. Coaches Airmen on what to test and how, but never writes the tests for them.</div>
-              <div class="agent-model">Claude Sonnet 4.5 · Fulcrum Cloud</div>
-            </div>
-          </div>
-          <div class="agent-item">
-            <div>
-              <div class="agent-tag catch">@devsecops_lead</div>
-              <div class="agent-desc">Pipeline health monitoring. SAST/DAST findings remediation. Iron Bank compliance. DORA metrics tracking.</div>
-              <div class="agent-model">Claude Sonnet 4.5 · Fulcrum Edge</div>
-            </div>
-          </div>
-          <div class="agent-item">
-            <div>
-              <div class="agent-tag catch">@security_engineer</div>
-              <div class="agent-desc">OWASP Top 10, STIG compliance, Keycloak auth patterns. Turns every vulnerability into a teaching moment.</div>
-              <div class="agent-model">GPT-5 · Fulcrum Cloud</div>
-            </div>
-          </div>
-          <div class="agent-item">
-            <div>
-              <div class="agent-tag catch">@license_compliance</div>
-              <div class="agent-desc">Daily npm dependency scan. Flags GPL/AGPL conflicts and CVEs before they become procurement problems.</div>
-              <div class="agent-model">Gemini 2.5 Flash · Fulcrum Edge</div>
-            </div>
-          </div>
+      <!-- SUCCESS STATE -->
+      <div class="success-state" id="successState">
+        <div class="success-icon">✓</div>
+        <div class="success-title">Request Submitted</div>
+        <div class="success-body">
+          Your request has been received and sent for review.<br><br>
+          <strong>You'll receive an email within 24–48 hours</strong> if your request is approved, along with a secure access link.<br><br>
+          <span style="color:#3a5578">Digital Transformations LLC · Fulcrum Platform</span>
         </div>
       </div>
 
-    </div>
-
-    <!-- Provider breakdown -->
-    <div class="section-label reveal" style="margin-top: 60px;">LLM Provider Architecture</div>
-    <div class="provider-grid reveal">
-      <div class="provider-card">
-        <div class="provider-name claude">Anthropic / Claude</div>
-        <div class="provider-agents">Opus 4.6: @career_progression, @scrum_coach, @architect, @code_reviewer<br>Sonnet 4.5: @cdc_tutor, @product_coach, @frontend_dev, @backend_dev, @test_engineer, @devsecops_lead</div>
-        <div class="provider-badge claude">10 Agents · Premium + Mid-tier</div>
-      </div>
-      <div class="provider-card">
-        <div class="provider-name gemini">Google / Gemini</div>
-        <div class="provider-agents">2.5 Pro: @ai_mentor (1M context window for teaching large codebases)<br>2.5 Flash: @git_coach, @license_compliance (webhooks + scheduled scans)</div>
-        <div class="provider-badge gemini">3 Agents · Speed + Context</div>
-      </div>
-      <div class="provider-card">
-        <div class="provider-name gpt">OpenAI / GPT</div>
-        <div class="provider-agents">GPT-5: @security_engineer (security reasoning + 3rd provider diversity)<br>GPT-5 Mini: @epr_writer (structured EPR bullet output at scale)</div>
-        <div class="provider-badge gpt">2 Agents · Specialist Roles</div>
-      </div>
     </div>
   </div>
-</section>
 
-<!-- KNOWLEDGE VAULT -->
-<section class="knowledge-section" id="knowledge">
-  <div class="section-container">
-    <div class="section-label">Knowledge Architecture</div>
-    <h2 class="section-title reveal">The 102-Book Vault</h2>
-    <p class="section-desc reveal">Every Fulcrum agent is enriched by a curated library of 102 books across 11 domains, distilled into system prompt identity rather than just referenced. The @scrum_coach alone draws on 80+ books.</p>
-
-    <div class="knowledge-domains reveal">
-      <div class="domain-card">
-        <div class="domain-num">01</div>
-        <div class="domain-name">Agile & Scrum Foundations</div>
-        <div class="domain-count">9 books</div>
-      </div>
-      <div class="domain-card">
-        <div class="domain-num">02</div>
-        <div class="domain-name">DevOps & Continuous Delivery Canon</div>
-        <div class="domain-count">9 books</div>
-      </div>
-      <div class="domain-card">
-        <div class="domain-num">03</div>
-        <div class="domain-name">Lean & Systems Thinking</div>
-        <div class="domain-count">13 books</div>
-      </div>
-      <div class="domain-card">
-        <div class="domain-num">04</div>
-        <div class="domain-name">Leadership & Human Performance</div>
-        <div class="domain-count">14 books</div>
-      </div>
-      <div class="domain-card">
-        <div class="domain-num">05</div>
-        <div class="domain-name">Military Strategy & Decision Science</div>
-        <div class="domain-count">10 books</div>
-      </div>
-      <div class="domain-card">
-        <div class="domain-num">06</div>
-        <div class="domain-name">Enterprise Agile & Scaling</div>
-        <div class="domain-count">6 books</div>
-      </div>
-      <div class="domain-card">
-        <div class="domain-num">07</div>
-        <div class="domain-name">Change Management & Org Transformation</div>
-        <div class="domain-count">11 books</div>
-      </div>
-      <div class="domain-card">
-        <div class="domain-num">08</div>
-        <div class="domain-name">Product Management</div>
-        <div class="domain-count">7 books</div>
-      </div>
-      <div class="domain-card">
-        <div class="domain-num">09</div>
-        <div class="domain-name">Emotional Intelligence & Psychology</div>
-        <div class="domain-count">8 books</div>
-      </div>
-      <div class="domain-card">
-        <div class="domain-num">10</div>
-        <div class="domain-name">AI, Machine Learning & MCP</div>
-        <div class="domain-count">7 books</div>
-      </div>
-      <div class="domain-card">
-        <div class="domain-num">11</div>
-        <div class="domain-name">Systems & Geopolitical Thinking</div>
-        <div class="domain-count">8 books</div>
-      </div>
-      <div class="domain-card" style="background: rgba(0, 212, 255, 0.04); border: 1px solid rgba(0, 212, 255, 0.1);">
-        <div class="domain-num" style="color: var(--accent);">RAG</div>
-        <div class="domain-name" style="color: var(--accent);">Layer 3 Vector Store</div>
-        <div class="domain-count" style="color: var(--muted);">Post-pilot expansion</div>
-      </div>
-    </div>
+  <div class="site-footer">
+    Digital Transformations LLC &nbsp;·&nbsp; Fulcrum Platform &nbsp;·&nbsp; <span>Confidential</span><br>
+    Honoring BG Fulcrum Atwood, USSF — Intelligence & Cyber Leader, Citadel Alumnus
   </div>
-</section>
-
-<!-- METRICS -->
-<section class="metrics-section" id="metrics">
-  <div class="section-container">
-    <div class="section-label">Success Metrics</div>
-    <h2 class="section-title reveal">Measurable Mission Impact</h2>
-    <p class="section-desc reveal">Every claim is backed by tracked data. At week 12, we produce a joint assessment report comparing baseline to outcomes.</p>
-
-    <div class="metrics-grid reveal">
-      <div class="metric-card">
-        <div class="metric-value">93%</div>
-        <div class="metric-label">Cost Reduction</div>
-        <div class="metric-detail">vs. contracted senior engineer at $15,000 to $25,000 per month burdened</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-value">24/7</div>
-        <div class="metric-label">Availability</div>
-        <div class="metric-detail">Never on leave. Never pulled to another project. Answers at 0200.</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-value">+40%</div>
-        <div class="metric-label">CFETP Acceleration</div>
-        <div class="metric-detail">Target: 40% more OJT core tasks completed by week 12</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-value">≥8.0</div>
-        <div class="metric-label">Airman Satisfaction</div>
-        <div class="metric-detail">Post-pilot survey target. If Airmen don't love it, it didn't work.</div>
-      </div>
-    </div>
-
-    <!-- DORA targets -->
-    <div style="margin-top: 60px;">
-      <div class="section-label reveal">DORA Performance Targets</div>
-      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; background: var(--border);" class="reveal">
-        <div style="background: var(--panel); padding: 24px;">
-          <div style="font-family: 'Share Tech Mono'; font-size: 10px; color: var(--muted); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 8px;">Deployment Frequency</div>
-          <div style="font-family: 'Orbitron'; font-size: 20px; color: var(--green); font-weight: 700;">≥ Weekly</div>
-        </div>
-        <div style="background: var(--panel); padding: 24px;">
-          <div style="font-family: 'Share Tech Mono'; font-size: 10px; color: var(--muted); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 8px;">Lead Time for Changes</div>
-          <div style="font-family: 'Orbitron'; font-size: 20px; color: var(--green); font-weight: 700;">≤ 1 Week</div>
-        </div>
-        <div style="background: var(--panel); padding: 24px;">
-          <div style="font-family: 'Share Tech Mono'; font-size: 10px; color: var(--muted); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 8px;">Change Failure Rate</div>
-          <div style="font-family: 'Orbitron'; font-size: 20px; color: var(--green); font-weight: 700;">≤ 15%</div>
-        </div>
-        <div style="background: var(--panel); padding: 24px;">
-          <div style="font-family: 'Share Tech Mono'; font-size: 10px; color: var(--muted); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 8px;">Mean Time to Recovery</div>
-          <div style="font-family: 'Orbitron'; font-size: 20px; color: var(--green); font-weight: 700;">≤ 1 Hour</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PRINCIPLES -->
-<section class="principle-section">
-  <div class="section-container">
-    <div class="section-label">Design Principles</div>
-    <h2 class="section-title reveal">Why This Works</h2>
-
-    <div class="principle-cards reveal">
-      <div class="principle-card">
-        <div class="principle-number">01</div>
-        <h3>Career-First Architecture</h3>
-        <p>The AFSC 1D7X1Z 5-level upgrade requires Airmen to "perform all core tasks without assistance." Every agent is designed around this constraint. AI teaches and the Airman demonstrates. OJT certification stays intact.</p>
-      </div>
-      <div class="principle-card">
-        <div class="principle-number">02</div>
-        <h3>Vendor-Agnostic by Design</h3>
-        <p>3 LLM providers across 15 agents (Claude, Gemini, and GPT) prove Fulcrum's orchestration promise in production. No single-vendor lock-in. Compliant with CDAO's 30-day model swap directive.</p>
-      </div>
-      <div class="principle-card">
-        <div class="principle-number">03</div>
-        <h3>Land & Expand Strategy</h3>
-        <p>A free 12-week pilot designed to generate undeniable ROI data. Platform One endorsement becomes the reference architecture for AI-augmented development across every DoD software factory.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- TIMELINE -->
-<section style="background: var(--steel); border-top: 1px solid var(--border); padding: 100px 40px;">
-  <div class="section-container">
-    <div class="section-label">Execution Plan</div>
-    <h2 class="section-title reveal">12-Week Pilot Timeline</h2>
-    <p class="section-desc reveal">Zero cost to Platform One. Three phases: stand up, operate, and prove.</p>
-
-    <div class="timeline reveal">
-      <div class="timeline-item">
-        <div class="timeline-marker">01</div>
-        <div class="timeline-phase">Weeks 1 to 2</div>
-        <div class="timeline-title">Setup</div>
-        <div class="timeline-desc">Deploy core 6 agents. Onboard 6 human team members. Connect GitLab webhooks and Cursor MCP integration. Establish Context Store baseline data.</div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-marker">02</div>
-        <div class="timeline-phase">Weeks 3 to 10</div>
-        <div class="timeline-title">Operate</div>
-        <div class="timeline-desc">Full 15-agent team operational. 4 sprint cycles. Weekly leadership check-ins. Track all metrics in real time. DT provides Agile coaching and DevSecOps advisory.</div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-marker">03</div>
-        <div class="timeline-phase">Weeks 11 to 12</div>
-        <div class="timeline-title">Evaluate</div>
-        <div class="timeline-desc">Joint assessment report. Before/after metrics comparison. Airman satisfaction survey. Recommendation for P1 Marketplace deployment or SHIELD IDIQ task order.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CTA -->
-<section class="cta-section" id="contact">
-  <div class="section-container">
-    <div class="cta-box reveal">
-      <div class="classification-bar" style="font-size: 9px; margin-bottom: 24px;">Ready to Launch</div>
-      <h2 class="cta-title">Launch Project Wingman</h2>
-      <p class="cta-text">The other contractors will give you 2 or 3 senior engineers who answer questions when they're available. We'll give you 15 AI agents who map every sprint story to your Airmen's CFETP requirements, coach them to demonstrate proficiency for their 5-level upgrade, and track their career progression in real time.<br><br>Your Airmen don't just ship better code. They get promoted faster.</p>
-      <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
-        <a href="mailto:hdorn@digitaltransformations.com" class="btn-primary">Request Pilot</a>
-        <a href="https://fulcrum.run" target="_blank" class="btn-secondary">View Fulcrum</a>
-      </div>
-      <div class="contact-info">
-        <div class="contact-item">
-          <div class="contact-label">Email</div>
-          <div class="contact-value">hdorn@digitaltransformations.com</div>
-        </div>
-        <div class="contact-item">
-          <div class="contact-label">Phone</div>
-          <div class="contact-value">206-972-0483</div>
-        </div>
-        <div class="contact-item">
-          <div class="contact-label">CAGE</div>
-          <div class="contact-value">9NRJ7 · TS Facility Clearance</div>
-        </div>
-        <div class="contact-item">
-          <div class="contact-label">Contract Vehicle</div>
-          <div class="contact-value">SHIELD IDIQ · $151B Ceiling</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-logo">Project Wingman · Digital Transformations LLC × Fulcrum</div>
-  <ul class="footer-links">
-    <li><a href="https://digitaltransformations.com" target="_blank">digitaltransformations.com</a></li>
-    <li><a href="https://fulcrum.run" target="_blank">fulcrum.run</a></li>
-  </ul>
-  <div class="footer-class">UNCLASSIFIED · © 2026 Digital Transformations LLC</div>
-</footer>
+</div>
 
 <script>
-  // Scroll reveal
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
-    });
-  }, { threshold: 0.1 });
-  reveals.forEach(el => observer.observe(el));
+  // ── PASSCODE CONFIG ──────────────────────────────────────────
+  // Change this to whatever passcode you want to use.
+  // When you approve someone, email them this code + the /brief.html URL.
+  const ACCESS_CODE = "FULCRUM2026";
+  const BRIEF_URL = "brief.html";
+  // ────────────────────────────────────────────────────────────
 
-  // Smooth scroll
-  document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', e => {
-      e.preventDefault();
-      const target = document.querySelector(a.getAttribute('href'));
-      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
+  function togglePasscode() {
+    const row = document.getElementById('passcodeRow');
+    row.classList.toggle('visible');
+    if (row.classList.contains('visible')) {
+      document.getElementById('passcodeInput').focus();
+    }
+  }
+
+  function checkPasscode() {
+    const input = document.getElementById('passcodeInput').value.trim().toUpperCase();
+    const errEl = document.getElementById('passcodeError');
+    if (input === ACCESS_CODE.toUpperCase()) {
+      // Store in session so brief page can verify
+      sessionStorage.setItem('fulcrum_access', 'granted');
+      window.location.href = BRIEF_URL;
+    } else {
+      errEl.style.display = 'block';
+      document.getElementById('passcodeInput').value = '';
+      setTimeout(() => errEl.style.display = 'none', 3000);
+    }
+  }
+
+  // ── FORM SUBMISSION ─────────────────────────────────────────
+  document.getElementById('accessForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    const errEl = document.getElementById('errorMsg');
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+    errEl.style.display = 'none';
+
+    try {
+      const response = await fetch(this.action, {
+        method: 'POST',
+        body: new FormData(this),
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (response.ok) {
+        document.getElementById('formState').style.display = 'none';
+        document.getElementById('successState').style.display = 'block';
+      } else {
+        throw new Error('Server error');
+      }
+    } catch(err) {
+      btn.disabled = false;
+      btn.textContent = 'Request Access →';
+      errEl.style.display = 'block';
+    }
   });
 </script>
-
 </body>
 </html>
